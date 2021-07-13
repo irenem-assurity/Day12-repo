@@ -1,0 +1,38 @@
+plugins {
+    id 'java'
+}
+
+group 'nz.co.asurrity'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.5.2',
+            'io.cucumber:cucumber-java:6.10.4',
+            'io.cucumber:cucumber-junit:6.10.4'
+}
+configurations {
+    cucumberRuntime {
+        extendsFrom testImplementation
+    }
+}
+
+task cucumber() {
+    dependsOn assemble, testClasses
+    doLast {
+        javaexec {
+            main = "io.cucumber.core.cli.Main"
+            classpath = configurations.cucumberRuntime + sourceSets.main.output + sourceSets.test.output
+            args = ['--plugin', 'pretty', '--glue', 'calculator', 'src/test/resources']
+        }
+    }
+}
+
+
+
+test {
+    useJUnitPlatform()
+}
