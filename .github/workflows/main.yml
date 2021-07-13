@@ -9,7 +9,7 @@ on:
  workflow_dispatch:
    inputs:
      name:
-       description: "Graduate name"
+       description: "Graduate Name"
        required: true
        default: "Randel"
 
